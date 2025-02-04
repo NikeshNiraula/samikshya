@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💖</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffccd5;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .love-letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            color: #b3005e;
+            width: 60%;
+            max-width: 500px;
+            display: none;
+            z-index: 5;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .love-letter h2 {
+            font-size: 28px;
+            color: #ff007f;
+        }
+
+        .love-letter p {
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            font-style: italic;
+            font-size: 20px;
+            color: #880044;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -55%);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        /* Container (Popup) */
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: auto;
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .yes-btn, .no-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .yes-btn {
+            background-color: #ff4081;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .no-btn {
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+        }
+
+        .yes-btn:hover {
+            background-color: #e6005c;
+        }
+
+        .no-btn:hover {
+            background-color: #555;
+        }
+
+        /* Fireworks Effect */
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, yellow, orange, red);
+            border-radius: 50%;
+            opacity: 1;
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1) translate(0, 0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) translate(var(--x), var(--y));
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        /* Bubble Animation */
+        .bubble {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: rgba(255, 0, 127, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            animation: floatAway 3s ease-in-out forwards;
+        }
+/* Background Hearts */
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    clip-path: polygon(
+        50% 15%, 61% 6%, 75% 0%, 89% 3%, 100% 15%, 
+        97% 31%, 84% 45%, 75% 55%, 50% 80%, 25% 55%, 
+        16% 45%, 3% 31%, 0% 15%, 11% 3%, 25% 0%, 
+        39% 6%
+    ); /* Heart shape */
+    opacity: 0.8;
+    animation: floatHearts 5s infinite ease-in-out;
+}
+
+@keyframes floatHearts {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+        .bubble img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s;
+}
+
+
+        @keyframes floatAway {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+                transform: translate(var(--randomX), var(--randomY)) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--randomX), var(--randomY)) scale(2);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="popup">
+        <h1>Will You Be My Valentine? 💖</h1>
+        <div class="buttons">
+            <button class="yes-btn" id="yesButton">Yes ❤️</button>
+            <button class="no-btn" id="noButton">No 😢</button>
+        </div>
+    </div>
+    <div class="love-letter" id="loveLetter">
+        <h2>My Dearest Love, 💖</h2>
+        <p>
+            From the moment our paths crossed, you’ve brought joy, warmth, and endless love into my life. 
+            Every smile you share, every laugh we have together, and every moment spent by your side is a 
+            treasure I hold close to my heart.
+        </p>
+        <p>
+            You are my sunshine on rainy days, my warmth in the cold, and the melody in my heart’s song. 
+            With you, every moment feels like a dream, and I never want to wake up from this beautiful reality.
+        </p>
+        <p>
+            Will you be my Valentine today, tomorrow, and forever? ❤️
+        </p>
+        <p class="signature">Forever Yours, <br> Nikesh</p>
+    </div>
+
+    <script>
+        createFloatingHearts();
+
+        let yesSize = 18; // Initial font size for "Yes" button
+        let noNames = ["Maybe?", "Try Again!", "Are You Sure?", "Really? 😢", "Think Again!", "Why Not?", "One More Try!"];
+
+        document.getElementById("noButton").addEventListener("click", function() {
+            // Increase Yes button size
+            yesSize += 10;
+            document.getElementById("yesButton").style.fontSize = yesSize + "px";
+
+            // Change No button text
+            let randomIndex = Math.floor(Math.random() * noNames.length);
+            document.getElementById("noButton").textContent = noNames[randomIndex];
+        });
+
+        document.getElementById("yesButton").addEventListener("click", function() {
+            // Remove the popup
+            document.getElementById("popup").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("popup").remove();
+            }, 500);
+
+            // Show Fireworks
+            launchFireworks();
+
+            // Show Heart Bubbles (Random Movement)
+            revealImages();
+        });
+        function createFloatingHearts() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        
+        // Random position
+        let randomX = Math.random() * window.innerWidth;
+        let randomSize = Math.random() * 15 + 30; // Random size between 10px to 25px
+        
+        heart.style.left = `${randomX}px`;
+        heart.style.width = `${randomSize}px`;
+        heart.style.height = `${randomSize}px`;
+        document.body.appendChild(heart);
+
+        // Remove heart after animation
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }, 500); // Every 500ms a new heart appears
+}
+        function launchFireworks() {
+            for (let i = 0; i < 6; i++) { // More fireworks for better effect
+                setTimeout(() => {
+                    createFirework();
+                }, i * 500);
+            }
+        }
+
+        function createFirework() {
+            let centerX = Math.random() * window.innerWidth;
+            let centerY = Math.random() * window.innerHeight;
+
+            for (let i = 0; i < 25; i++) { // More particles per firework
+                let firework = document.createElement("div");
+                firework.className = "firework";
+                firework.style.setProperty('--x', `${(Math.random() - 0.5) * 300}px`);
+                firework.style.setProperty('--y', `${(Math.random() - 0.5) * 300}px`);
+                firework.style.left = `${centerX}px`;
+                firework.style.top = `${centerY}px`;
+                document.body.appendChild(firework);
+
+                setTimeout(() => {
+                    firework.remove();
+                }, 1500);
+            }
+        }
+
+        function revealImages() {
+            let images = ["heart1.jpg", "heart2.jpg", "heart3.jpg", "heart4.jpg", "heart5.jpg"];
+
+            images.forEach((image, index) => {
+                setTimeout(() => {
+                    let bubble = document.createElement("div");
+                    bubble.className = "bubble";
+                    document.body.appendChild(bubble);
+
+                    let img = document.createElement("img");
+                    img.src = image;
+                    bubble.appendChild(img);
+
+                    let randomX = (Math.random() - 0.5) * 900 + "px"; // Random X movement
+                    let randomY = (Math.random() - 0.5) * 600 + "px"; // Random Y movement
+
+                    bubble.style.setProperty('--randomX', randomX);
+                    bubble.style.setProperty('--randomY', randomY);
+
+                    setTimeout(() => {
+                        img.style.opacity = "1"; // Reveal image
+                    }, 500);
+
+                    setTimeout(() => {
+                        bubble.remove(); // Remove bubble after animation
+                    }, 3000);
+                }, index * 500);
+            });
+        }
+        function showLoveLetter() {
+            setTimeout(() => {
+                document.getElementById("loveLetter").style.display = "block";
+            }, 4000); // Show after all animations
+        }
+
+        document.getElementById("yesButton").addEventListener("click", function() {
+            showLoveLetter();
+        });
+    </script>
+
+</body>
+</html>
